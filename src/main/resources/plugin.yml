@@ -1,0 +1,4 @@
+name: Topluck
+version: '1.0-SNAPSHOT'
+main: fr.jachou.topluck.Topluck
+api-version: '1.21'
