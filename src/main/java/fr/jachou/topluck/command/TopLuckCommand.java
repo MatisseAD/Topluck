@@ -12,9 +12,6 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-/**
- * Displays simple statistics about rare ore mining.
- */
 public class TopLuckCommand implements CommandExecutor {
     private final Topluck plugin;
 
@@ -25,6 +22,11 @@ public class TopLuckCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
+            if (sender instanceof Player player) {
+                new StatsMenu(plugin).open(player);
+            } else {
+                showTop(sender);
+            }
             showTop(sender);
         } else {
             showPlayer(sender, args[0]);
@@ -35,6 +37,11 @@ public class TopLuckCommand implements CommandExecutor {
     private void showTop(CommandSender sender) {
         sender.sendMessage(ChatColor.AQUA + "-- Top Luck --");
         plugin.getAllStats().stream()
+                .sorted(Comparator.comparingInt(PlayerStats::getDiamondOresMined).reversed())
+                .limit(10)
+                .forEach(stats -> {
+                    OfflinePlayer player = Bukkit.getOfflinePlayer(stats.getUuid());
+                    sender.sendMessage(ChatColor.YELLOW + player.getName() + ChatColor.WHITE + ": " + stats.getDiamondOresMined());
                 .sorted(Comparator.comparingInt(PlayerStats::getRareOresMined).reversed())
                 .limit(10)
                 .forEach(stats -> {
@@ -47,6 +54,18 @@ public class TopLuckCommand implements CommandExecutor {
         OfflinePlayer target = Bukkit.getOfflinePlayer(name);
         PlayerStats stats = plugin.getStats(target.getUniqueId());
         sender.sendMessage(ChatColor.AQUA + "Stats for " + target.getName());
+
+        sender.sendMessage(ChatColor.YELLOW + "Total blocks mined: " + stats.getTotalBlocksMined());
+        sender.sendMessage(ChatColor.AQUA + "Diamonds: " + stats.getDiamondOresMined() + format(stats.getDiamondOresMined(), stats));
+        sender.sendMessage(ChatColor.GREEN + "Emeralds: " + stats.getEmeraldOresMined() + format(stats.getEmeraldOresMined(), stats));
+        sender.sendMessage(ChatColor.GOLD + "Gold: " + stats.getGoldOresMined() + format(stats.getGoldOresMined(), stats));
+        sender.sendMessage(ChatColor.WHITE + "Iron: " + stats.getIronOresMined() + format(stats.getIronOresMined(), stats));
+    }
+
+    private String format(int count, PlayerStats stats) {
+        return String.format(" (%.2f%%)", stats.getPercentage(count));
+
         sender.sendMessage(ChatColor.YELLOW + "Rare ores mined: " + stats.getRareOresMined());
+
     }
 }

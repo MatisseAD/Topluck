@@ -4,5 +4,6 @@ main: fr.jachou.topluck.Topluck
 api-version: '1.21'
 commands:
   topluck:
+    description: Show mining statistics menu
     description: Display luck statistics
     usage: /<command> [player]
