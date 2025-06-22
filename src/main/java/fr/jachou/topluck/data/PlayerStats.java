@@ -7,11 +7,15 @@ import java.util.UUID;
  */
 public class PlayerStats {
     private final UUID uuid;
+
     private int totalBlocksMined;
     private int diamondOresMined;
     private int emeraldOresMined;
     private int goldOresMined;
     private int ironOresMined;
+
+    private int rareOresMined;
+
 
     public PlayerStats(UUID uuid) {
         this.uuid = uuid;
@@ -20,6 +24,7 @@ public class PlayerStats {
     public UUID getUuid() {
         return uuid;
     }
+
 
     public int getTotalBlocksMined() {
         return totalBlocksMined;
@@ -57,5 +62,13 @@ public class PlayerStats {
     public double getPercentage(int count) {
         if (totalBlocksMined == 0) return 0.0D;
         return (double) count * 100.0D / totalBlocksMined;
+
+    public int getRareOresMined() {
+        return rareOresMined;
+    }
+
+    public void incrementRareOre() {
+        rareOresMined++;
+
     }
 }

@@ -2,7 +2,6 @@ package fr.jachou.topluck.command;
 
 import fr.jachou.topluck.Topluck;
 import fr.jachou.topluck.data.PlayerStats;
-import fr.jachou.topluck.menu.StatsMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -13,10 +12,6 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-/**
- * Command entry point for the TopLuck plugin.
- * Opens a GUI for players or prints text statistics for console usage.
- */
 public class TopLuckCommand implements CommandExecutor {
     private final Topluck plugin;
 
@@ -32,6 +27,7 @@ public class TopLuckCommand implements CommandExecutor {
             } else {
                 showTop(sender);
             }
+            showTop(sender);
         } else {
             showPlayer(sender, args[0]);
         }
@@ -46,6 +42,11 @@ public class TopLuckCommand implements CommandExecutor {
                 .forEach(stats -> {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(stats.getUuid());
                     sender.sendMessage(ChatColor.YELLOW + player.getName() + ChatColor.WHITE + ": " + stats.getDiamondOresMined());
+                .sorted(Comparator.comparingInt(PlayerStats::getRareOresMined).reversed())
+                .limit(10)
+                .forEach(stats -> {
+                    OfflinePlayer player = Bukkit.getOfflinePlayer(stats.getUuid());
+                    sender.sendMessage(ChatColor.YELLOW + player.getName() + ChatColor.WHITE + ": " + stats.getRareOresMined());
                 });
     }
 
@@ -53,6 +54,7 @@ public class TopLuckCommand implements CommandExecutor {
         OfflinePlayer target = Bukkit.getOfflinePlayer(name);
         PlayerStats stats = plugin.getStats(target.getUniqueId());
         sender.sendMessage(ChatColor.AQUA + "Stats for " + target.getName());
+
         sender.sendMessage(ChatColor.YELLOW + "Total blocks mined: " + stats.getTotalBlocksMined());
         sender.sendMessage(ChatColor.AQUA + "Diamonds: " + stats.getDiamondOresMined() + format(stats.getDiamondOresMined(), stats));
         sender.sendMessage(ChatColor.GREEN + "Emeralds: " + stats.getEmeraldOresMined() + format(stats.getEmeraldOresMined(), stats));
@@ -62,5 +64,8 @@ public class TopLuckCommand implements CommandExecutor {
 
     private String format(int count, PlayerStats stats) {
         return String.format(" (%.2f%%)", stats.getPercentage(count));
+
+        sender.sendMessage(ChatColor.YELLOW + "Rare ores mined: " + stats.getRareOresMined());
+
     }
 }

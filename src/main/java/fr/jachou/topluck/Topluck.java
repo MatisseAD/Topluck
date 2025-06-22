@@ -9,9 +9,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-/**
- * Basic implementation of the TopLuck plugin tracking mining statistics.
- */
 public final class Topluck extends JavaPlugin {
 
     private final Map<UUID, PlayerStats> statsMap = new HashMap<>();
