@@ -4,6 +4,17 @@ main: fr.jachou.topluck.Topluck
 api-version: '1.21'
 commands:
   topluck:
-    description: Show mining statistics menu
     description: Display luck statistics
     usage: /<command> [player]
+    aliases: [tl]
+  tlad:
+    description: Admin commands for anti-cheat management
+    usage: /<command> <audit|surveillance|alerts|freeze|export> [args]
+    permission: topluck.admin
+permissions:
+  topluck.admin:
+    description: Allows use of admin commands
+    default: op
+  topluck.alerts:
+    description: Receive alert notifications
+    default: op

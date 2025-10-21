@@ -43,6 +43,16 @@ public class StatsMenu {
                 lore.add(ChatColor.GREEN + "Emeralds: " + stats.getEmeraldOresMined() + formatPercent(stats.getEmeraldOresMined(), stats));
                 lore.add(ChatColor.GOLD + "Gold: " + stats.getGoldOresMined() + formatPercent(stats.getGoldOresMined(), stats));
                 lore.add(ChatColor.WHITE + "Iron: " + stats.getIronOresMined() + formatPercent(stats.getIronOresMined(), stats));
+                lore.add(ChatColor.DARK_PURPLE + "Ancient Debris: " + stats.getAncientDebrisMined() + formatPercent(stats.getAncientDebrisMined(), stats));
+                lore.add("");
+                double suspicion = stats.getSuspicionScore();
+                ChatColor suspicionColor = suspicion > 50 ? ChatColor.RED : (suspicion > 20 ? ChatColor.YELLOW : ChatColor.GREEN);
+                lore.add(suspicionColor + "Suspicion: " + String.format("%.1f/100", suspicion));
+                
+                if (stats.getSurveillanceStatus() != PlayerStats.SurveillanceStatus.NONE) {
+                    lore.add(ChatColor.RED + "Status: " + stats.getSurveillanceStatus());
+                }
+                
                 meta.setLore(lore);
                 head.setItemMeta(meta);
             }
@@ -53,6 +63,15 @@ public class StatsMenu {
 
     private String formatPercent(int count, PlayerStats stats) {
         double pct = stats.getPercentage(count);
-        return String.format(" (%.2f%%)", pct);
+        ChatColor color = ChatColor.WHITE;
+        
+        // Color code based on suspicion
+        if (pct > 5.0) {
+            color = ChatColor.RED;
+        } else if (pct > 2.0) {
+            color = ChatColor.YELLOW;
+        }
+        
+        return color + String.format(" (%.2f%%)", pct);
     }
 }
