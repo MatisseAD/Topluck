@@ -1,0 +1,34 @@
+# Topluck Anti-Cheat Configuration
+
+# Alert thresholds for suspicious mining patterns (percentage)
+thresholds:
+  diamond: 5.0  # % of diamonds mined vs total blocks (normal is ~0.1-0.3%)
+  emerald: 3.0  # % of emeralds mined vs total blocks (normal is ~0.05-0.2%)
+  ancient_debris: 2.0  # % of ancient debris vs total blocks
+  rare_combined: 8.0  # % of all rare ores combined
+
+# Minimum blocks mined before alerts are generated
+minimum-blocks: 100
+
+# Enable/disable alert notifications
+alerts:
+  enabled: true
+  notify-admins: true
+  log-to-file: true
+  
+# Export settings
+export:
+  csv-enabled: true
+  json-enabled: true
+  export-directory: "plugins/Topluck/exports"
+
+# Surveillance settings
+surveillance:
+  enabled: true
+  auto-flag-suspicious: true
+  
+# Alert log settings
+alert-log:
+  enabled: true
+  log-directory: "plugins/Topluck/alerts"
+  retention-days: 30

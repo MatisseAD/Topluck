@@ -35,10 +35,12 @@ public class OreMineListener implements Listener {
         Block block = event.getBlock();
 
         PlayerStats stats = plugin.getStats(player.getUniqueId());
-        stats.incrementBlock(block.getType());
+        stats.incrementBlock(block.getType(), block.getLocation());
 
         if (RARE_ORES.contains(block.getType())) {
-            stats.incrementRareOre();
+            // Check for alerts when rare ore is mined
+            plugin.getAlertManager().checkAndCreateAlerts(player, stats, block.getLocation());
         }
     }
 }
+
