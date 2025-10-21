@@ -62,6 +62,7 @@ public class PlayerStats {
     public double getPercentage(int count) {
         if (totalBlocksMined == 0) return 0.0D;
         return (double) count * 100.0D / totalBlocksMined;
+    }
 
     public int getRareOresMined() {
         return rareOresMined;
@@ -69,6 +70,5 @@ public class PlayerStats {
 
     public void incrementRareOre() {
         rareOresMined++;
-
     }
 }
