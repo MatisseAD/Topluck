@@ -55,7 +55,17 @@ public class TopLuckCommand implements CommandExecutor {
         sender.sendMessage(ChatColor.GREEN + "Emeralds: " + stats.getEmeraldOresMined() + format(stats.getEmeraldOresMined(), stats));
         sender.sendMessage(ChatColor.GOLD + "Gold: " + stats.getGoldOresMined() + format(stats.getGoldOresMined(), stats));
         sender.sendMessage(ChatColor.WHITE + "Iron: " + stats.getIronOresMined() + format(stats.getIronOresMined(), stats));
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Ancient Debris: " + stats.getAncientDebrisMined() + format(stats.getAncientDebrisMined(), stats));
         sender.sendMessage(ChatColor.YELLOW + "Rare ores mined: " + stats.getRareOresMined());
+        sender.sendMessage("");
+        
+        double suspicion = stats.getSuspicionScore();
+        ChatColor suspicionColor = suspicion > 50 ? ChatColor.RED : (suspicion > 20 ? ChatColor.YELLOW : ChatColor.GREEN);
+        sender.sendMessage(suspicionColor + "Suspicion Score: " + String.format("%.1f/100", suspicion));
+        
+        if (stats.getSurveillanceStatus() != PlayerStats.SurveillanceStatus.NONE) {
+            sender.sendMessage(ChatColor.RED + "Surveillance: " + stats.getSurveillanceStatus());
+        }
     }
 
     private String format(int count, PlayerStats stats) {
